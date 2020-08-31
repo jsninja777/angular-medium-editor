@@ -53,10 +53,11 @@ export class AuthService {
   AuthLogin(provider) {
     return this.afAuth.signInWithPopup(provider)
     .then((result) => {
-       this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
-        })
+      localStorage.setItem('user', JSON.stringify(result.user));
       this.SetUserData(result.user);
+      this.ngZone.run(() => {
+        this.router.navigate(['dashboard']);
+      })
     }).catch((error) => {
       window.alert(error)
     })
